@@ -1,0 +1,137 @@
+<html>
+<head>
+    <title>anwarelmakrahy.localhost</title>
+    <style>
+		a.normal {
+		    
+		}
+	</style>
+</head>
+<body bgcolor="#050505" style="color: #ffffff; font-family: Monospace; width: 480pt" >
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-53791622-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
+	<pre>
+[*] Started reverse handler on 10.0.0.100:4444
+[*] Starting the payload handler...
+[*] Preparing support library (91752 bytes)...
+[*] Preparing metsrv library (29312 bytes)...
+[*] Sending stage (121072 bytes) to 10.0.0.100
+[*] Meterpreter session 31337 opened (10.0.0.100:4444 -> 10.0.0.101:37047)
+
+meterpreter > shell
+
+ ██      ▄     ▄ ▄   ██   █▄▄▄▄     █▀▄▀█ ████▄  ▄  █ ██   █▀▄▀█ ▄███▄   ██▄   
+ █ █      █   █   █  █ █  █  ▄▀     █ █ █ █   █ █   █ █ █  █ █ █ █▀   ▀  █  █  
+ █▄▄█ ██   █ █ ▄   █ █▄▄█ █▀▀▌      █ ▄ █ █   █ ██▀▀█ █▄▄█ █ ▄ █ ██▄▄    █   █ 
+ █  █ █ █  █ █  █  █ █  █ █  █      █   █ ▀████ █   █ █  █ █   █ █▄   ▄▀ █  █  
+    █ █  █ █  █ █ █     █   █          █           █     █    █  ▀███▀   ███▀  
+   █  █   ██   ▀ ▀     █   ▀          ▀           ▀     █    ▀                 
+  ▀                   ▀                                ▀          's localhost
+
+~$ tree ~/www
+/home/anwarelmakrahy/www
+│
+├─── <b>About</b>
+│    │
+│    └─── Anwar Mohamed, another security researcher focusing on system
+│         exploitation and exploit development for mobile platforms specially
+│         those based on linux kernel.
+│
+├─── <b>Projects</b>
+│    │
+│    ├─── <a href="https://github.com/AnwarMohamed/Packetyzer" style="text-decoration:none;color:#ffffff;"><b>Packetyzer</b></a>
+│    │    High level C++ library designed to make easier the forging and 
+│    │    decoding of network packets. It has the ability to decode packets 
+│    │    of most common network protocols, capture them and send them on 
+│    │    the wire. This capability allows construction of tools that can 
+│    │    probe, scan or attack networks.
+│    │
+│    ├─── <a href="https://github.com/AnwarMohamed/pwnCore" style="text-decoration:none;color:#ffffff;"><b>pwnCore</b></a>
+│    │    Android Cyber Attack Management Tool for Metasploit coming in a 
+│    │    graphical user interface package that visualizes targets, recommends 
+│    │    exploits, and exposes the advanced capabilities of the metasploit 
+│    │    framework.
+│    │
+│    ├─── <b>droidNinja</b>
+│    │    Android Exploitation & Reversing Framework, built to help android 
+│    │    security researchers to find and exploit vulnerabilities in android 
+│    │    applications and to disassemble different APKs.
+│    │
+│    ├─── <a href="https://github.com/rapid7/metasploit-framework/commit/af3ca19ab27e3e73b80a48dfa196b925f33d1b64" style="text-decoration:none;color:#ffffff;"><b>Meterpreter Android Extention</b></a>
+│    ├─── <b>Meterpreter iOS Payload</b>
+│    ├─── <a href="https://github.com/rapid7/metasploit-framework/pull/3482" style="text-decoration:none;color:#ffffff;"><b>Meterpreter Mac OS X Payload</b></a>
+│    ├─── <a href="https://github.com/AnwarMohamed/WinLSP" style="text-decoration:none;color:#ffffff;"><b>WinLSP</b>
+│    │
+│    │
+│    └─── <b>Hardware</b>
+│        │
+│        ├─── <a href="https://www.facebook.com/technoanwar/posts/10152497186724680" style="text-decoration:none;color:#ffffff;"><b>Bluetooth Controlled 8-bit ALU</b>
+│        └─── <a href="https://www.facebook.com/technoanwar/posts/10152499273624680" style="text-decoration:none;color:#ffffff;"><b>Bluetooth Controlled Hex Encoder</b>
+│
+├─── <b>Contributions</b>
+│    │ 
+│    ├─── <a href="https://github.com/rapid7/metasploit-framework/commits?author=AnwarMohamed" style="text-decoration:none;color:#ffffff;"><b>Metasploit Framework</b></a>
+│    │    Added mac os x meterpreter payload.
+│    │    Added reverse_http/s for android payload.
+│    │    Added exploitation capabilities for android based devices.
+│    │    Added whatsapp & viber dump plugins.
+│    │    Added android meterpreter extension.
+│    │   
+│    ├─── <a href="https://github.com/SherifEldeeb/inmet" style="text-decoration:none;color:#ffffff;"><b>Inmet</b></a>
+│    │    Added support for metsvc_bind_tcp & bind_tcp.
+│    │    Added support for run-time parsing for ReflectiveLoader function \
+│    │    RVA & locate file offset.
+│    │
+│    └─── <a href="https://github.com/AmrThabet/winSRDF/commits?author=AnwarMohamed" style="text-decoration:none;color:#ffffff;"><b>SRDF ~ Security Research & Development Framework</b></a>
+│         Added support to parse pe file export table. 
+│         Added elf parser for decoding linux binaries.
+│         Added android apk decoder class.
+│         Added packetyzer as backbone of packet analysis in the framework.
+│
+├─── <b>Skills</b>
+├─── <b>Research</b>
+├─── <b>Talks</b>
+│    │ 
+│    ├─── <b>Alexandria ACM Student Chapter</b>
+│    │    Cyber Security Summer Training
+│    │   
+│    ├─── <b>OWASP Cairo Kick-off 2014</b>
+│    │    OWASP SRDF Project
+│    │   
+│    └─── <b>Cairo Security Camp 2013</b>
+│         Introduction to pwnCore | Your pentesting swiss knife on Android
+│
+├─── <b>Articles</b>
+│    │
+│    └─── <b>Security Kaizen Magazine</b>
+│         My story with Packetyzer development
+│
+├─── <b>Whitepapers</b>
+│    │
+│    ├─── <a href="https://drive.google.com/file/d/0B4NOc6lPmQRCNFVuR3doX1dYZm8/edit?usp=sharing" style="text-decoration:none;color:#ffffff;">Meterpreter all the things</a>
+│    └─── <a href="" style="text-decoration:none;color:#ffffff;">Packetyzer</a>
+│
+├─── <b>Tools</b>
+│
+└─── <b>To be continued</b>
+
+~$
+~$
+~$ cat ~/email.me
+echo 'mocliamgyharkamlerawna' | sed -e 's/c/c\./;s/g/g@/' | rev
+~$
+~$
+~$ wget -q http://anwarelmakrahy.com/rooter
+~$ ./rooter -c 'rm -rf /; reboot'
+ 
+[*] 10.0.0.101 - Meterpreter session 31337 closed.  Reason: Died
+	</pre>
+</body>
+</html>
+

