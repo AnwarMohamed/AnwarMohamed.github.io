@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>anwarelmakrahy | SIC/XE Build System for Sublime</title>
+    <meta name="Description" content=" Anwar Mohamed's security corner." />
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Author" content="Anwar Mohamed"/>
+    <meta name="Robots" content="index,follow"/>
+
+    <link rel="index" title="anwarelmakrahy.localhost" href="http://anwarelmakrahy.com"/>
+
+    <link rel="stylesheet" href="../css/perldoc.css"/>
+    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+
+    <link rel="alternate" type="application/rss+xml" title="anwarelmakrahy's feed" href="rss.xml"/>
+    <link rel="icon" type="image/x-ico" href="../favicon.ico"/>
+
+    <style>
+      .profile {
+        text-align: center;
+      }
+      .profile ul {
+        text-align: left;
+        list-style: none;
+        margin-top: 10px;
+      }
+      .profile li a {
+        padding-left: 6px;
+        color: #333333;
+      }
+      .profile a {
+        color: #333333;
+      }
+      .profile h4 a:hover {
+        text-decoration: none;
+      }
+      body {
+        padding-top: 60px; 
+      }
+      p {
+        text-align: justify;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-left">
+        <li><a href="http://anwarelmakrahy.com/"><b>anwarelmakrahy.localhost</b></a></li>
+        <!--<li><a href="#">Test</a></li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <div class="container">      
+            <div class="span2 profile">
+                <h4><a target="_blank" href="https://twitter.com/anwarelmakrahy">Anwar Mohamed</a></h4>
+                <center>
+                <img width="110" height="105" alt="" src="../img/anwar.jpeg" />
+                </center>
+                <p>&nbsp;</p>
+                <ul>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://github.com/AnwarMohamed">GitHub Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.quora.com/Anwar-Mohamed-1">Quora Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.linkedin.com/pub/anwar-mohamed/88/32b/44b">Linkedin Profile</a></li>
+                    <!--<li><i class="icon-globe"></i><a target="_blank" href="rss.xml">RSS feeds</a></li>-->
+                    <li><i class="icon-envelope"></i><a target="_blank" href="mailto:anwarelmakrahy@gmail.com">Email</a></li>
+                </ul>
+            </div>
+            <div class="span8">
+            <!--Body content-->
+      
+  <h2>SIC/XE Build System for Sublime</h2>
+  by <a target="_blank" href="http://twitter.com/anwarelmakrahy">Anwar Mohamed</a> - 18-10-2014
+  <span class="label"></span><hr>
+
+  <h4>Introduction to SIC/XE</h4>
+  <p>SIC which stands for Simplified Instructional Computer is a hypothetical architecture that was used used by Leland Beck in his book 'System Software' to explain the concepts of assemblers, compilers and operating systems. SIC/XE, (the XE stands for Extra Equipment), is an extension of SIC which has higher memory, greater number of registers and additional instructions.</p>
+
+  <p>If you checked the assembler and the simulator you will suffer from the many file renames needed for your object file to run. So I have wrote a build system for sublime text to get the dirty work done for you.</p>
+
+  <p>&nbsp;</p>
+  <h4>Installing SIC/XE Build System</h4>
+
+  <p>Download it from <a target="_blank" href="../files/sublime-sic.zip">here</a></p>
+  <p>The archieve file is composed of:</p>
+
+  <div class="codehilite"><pre>
+./sicxe
+./sicxe/run.bat
+./sicxe/SICASM.DOC
+./sicxe/SICASM.exe
+./sicxe/SICASM.PAS
+./sicxe/SICBOOT.ASM
+./sicxe/SICBOOT.DOC
+./sicxe/SICBOOT.OBJ
+./sicxe/SICLDR.ASM
+./sicxe/SICLDR.DOC
+./sicxe/SICLDR.OBJ
+./sicxe/SICSIM.DOC
+./sicxe/SICSIM.exe
+./sicxe/SICSIM.PAS
+./sicxe/SICTEST.ASM
+./sicxe/SICTEST.DAT
+./sicxe/SICTEST.DOC
+./sicxe/~$ICTEST.DOC
+./SICXE.sublime-build
+./SICXE.sublime-settings</pre></div>
+  
+  <p>You will have to copy these two files</p>
+
+  <div class="codehilite"><pre>
+SICXE.sublime-build
+SICXE.sublime-settings</pre></div>
+  
+  <p>To [ Just copy-paste into the address bar ]</p>
+  <div class="codehilite"><pre>
+%APPDATA%\Sublime Text 2\Packages\User\</pre></div>
+  <img src="../img/sic-sublime.png" style="display:block;margin-left: auto;margin-right: auto;"></img>
+
+  <p>&nbsp;</p>
+  <p>Next you will have to copy <b>sicxe</b> folder into <b>C:\</b></p>
+  <img src="../img/sic-folder.png" style="display:block;margin-left: auto;margin-right: auto;"></img>
+  <p>&nbsp;</p>
+
+  <p>Open your assembly file using sublime text and choose <b>SICXE</b> build system from <b>Tools</b></p>
+  <img src="../img/sic-build.png" style="display:block;margin-left: auto;margin-right: auto;"></img>
+  <p>&nbsp;</p>
+
+
+  <p>To assemble and simulate your object file just press <b>Ctrl+B</b> and guess what!? It worked !</p>
+  <img src="../img/sic-run.png" style="display:block;margin-left: auto;margin-right: auto;"></img>
+  <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div> <!-- /container -->
+    </div>
+
+   <footer class="footer">
+      <div class="container">
+        <p class="text-center">anwarelmakarahy - 2014</p>
+        <ul class="footer-links">
+          <!--<li><a target="_blank" href="rss.xml">RSS</a></li>
+          <li class="muted">&middot;</li>-->
+          <li><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter</a></li>
+          <li class="muted">&middot;</li>
+          <li><a target="_blank" href="https://github.com/AnwarMohamed">Github</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-53791622-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  </body>
+</html>
