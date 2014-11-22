@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>anwarelmakrahy | Reversing FinSpy Mobile - Part 1</title>
+    <meta name="Description" content=" Anwar Mohamed's security corner." />
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Author" content="Anwar Mohamed"/>
+    <meta name="Robots" content="index,follow"/>
+
+    <link rel="index" title="anwarelmakrahy.localhost" href="http://anwarelmakrahy.com"/>
+
+    <link rel="stylesheet" href="../css/perldoc.css"/>
+    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+
+    <link rel="alternate" type="application/rss+xml" title="anwarelmakrahy's feed" href="rss.xml"/>
+    <link rel="icon" type="image/x-ico" href="../favicon.ico"/>
+
+    <script src="../js/jquery.js" type="text/javascript"></script>
+
+    <style>
+      .profile {
+        text-align: center;
+      }
+      .profile ul {
+        text-align: left;
+        list-style: none;
+        margin-top: 10px;
+      }
+      .profile li a {
+        padding-left: 6px;
+        color: #333333;
+      }
+      .profile a {
+        color: #333333;
+      }
+      .profile h4 a:hover {
+        text-decoration: none;
+      }
+      body {
+        padding-top: 60px; 
+      }
+      p {
+        text-align: justify;
+      }     
+
+      p.button { 
+        margin: .25em; 
+  
+      } 
+
+    </style>
+ <script type="text/javascript">
+$(document).ready(function() { 
+  $('#button1').click(function(e) { 
+    var $region = $('#' + $(this).attr('aria-controls')); 
+    $region.slideToggle(100, function() { 
+      if ($region.attr('aria-expanded') == 'false') {
+        $region.attr('aria-expanded', 'true'); 
+        $region.focus(); 
+        $(this).find('span').html('Hide'); 
+      } 
+      else {
+        $region.attr('aria-expanded', 'false'); 
+        $(this).find('span').html('Show'); 
+      } 
+    }); 
+    e.stopPropagation(); 
+    return false; 
+  }); 
+});
+  </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-left">
+        <li><a href="http://anwarelmakrahy.com/"><b>anwarelmakrahy.localhost</b></a></li>
+        <!--<li><a href="#">Test</a></li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <div class="container">      
+            <div class="span2 profile">
+                <h4><a target="_blank" href="https://twitter.com/anwarelmakrahy">Anwar Mohamed</a></h4>
+                <center>
+                <img width="110" height="105" alt="" src="../img/anwar.jpeg" />
+                </center>
+                <p>&nbsp;</p>
+                <ul>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://github.com/AnwarMohamed">GitHub Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.quora.com/Anwar-Mohamed-1">Quora Profile</a></li>
+                    <li><i class="icon-user"></i><a target="_blank" href="https://www.linkedin.com/pub/anwar-mohamed/88/32b/44b">Linkedin Profile</a></li>
+                    <!--<li><i class="icon-globe"></i><a target="_blank" href="rss.xml">RSS feeds</a></li>-->
+                    <li><i class="icon-envelope"></i><a target="_blank" href="mailto:anwarelmakrahy@gmail.com">Email</a></li>
+                </ul>
+            </div>
+            <div class="span8">
+            <!--Body content-->
+      
+  <h2>Reversing FinSpy Mobile</h2>
+  by <a target="_blank" href="http://twitter.com/anwarelmakrahy">Anwar Mohamed</a> - 22-11-2014
+  <span class="label"></span><hr>
+
+  <h4>Introduction</h4>
+  <p>Reverse engineering is a vitally important skill for today's expert security professional. Everything from reverse engineering malware to discovering vulnerabilities in binaries are required in order to properly secure an organization from today's ever evolving threats.</p>
+
+  <p>This series focuses on the static approach to analyse Android malware. We will be examining FinSpy Mobile that was leaked lately among 40GB of internal documents and source codes of government malware made by Gamma FinFisher.</p>
+
+  <p>FinFisher is a range of attack tools developed and sold by a company called Gamma Group used by governments worldwide to capture user data.
+
+  <p>FinSpy Mobile is the mobile version, compatible with Android, Blackberry, iOS and Windows Phone. All communication with the C&C is encrypted, it can record incoming and outgoing emails, provide location tracking, and provide "live surveillance through silent calls."</p>
+
+  <p>&nbsp;</p>
+  <h4>Let's Get Started</h4>
+
+  <p>Download FinSpy sample <i><b>c30ec9c98b15863ccd509126384caca1</b></i> from <a target="_blank" href="../files/ANDDemo.apk">goo.gl/gZyXjM</a></p>
+  <p>The apk files can be simply uncompressed just like zip files to get their contents that include the manifest file this is usually in the binary format.</p>
+  <p>The archieve file is composed of:</p>
+
+  <div class="codehilite"><pre>
+./AndroidManifest.xml
+./assets
+./assets/Configurations
+./assets/Configurations/fdasfjkalafdss10
+./assets/Configurations/fdasfjkalafdss...
+./assets/Configurations/fdasfjkalafdss...
+./assets/Configurations/fdasfjkalafdss...
+./assets/Configurations/fdasfjkalafdss99
+./assets/plustig
+./assets/screenshot
+./classes.dex
+./META-INF
+./META-INF/CERT.RSA
+./META-INF/CERT.SF
+./META-INF/MANIFEST.MF
+./res
+./res/drawable-hdpi
+./res/drawable-hdpi/icon.png
+./res/drawable-ldpi
+./res/drawable-ldpi/icon.png
+./res/drawable-mdpi
+./res/drawable-mdpi/icon.png
+./res/layout
+./res/layout/hidden.xml
+./res/layout/main.xml
+./res/xml
+./res/xml/einstellung.xml
+./res/xml/my_settings.xml
+./resources.arsc</pre></div>
+  
+  <p>&nbsp;</p>
+  <h4>AndroidManifest.xml</h4>
+  <p>This file this is usually in the binary format and can be converted into a readable file by downloading <a target="_blank" href="https://code.google.com/p/android4me/downloads/detail?name=AXMLPrinter2.jar">AXMLPrinter2.jar</a> and running</p>
+
+  <div class="codehilite"><pre>
+java –jar AXMLPrinter2.jar AndroidManifest.xml</pre></div>
+  <p>Download the decoded xml from <a target="_blank" href="../files/AndroidManifest.xml">here</a></p>
+
+  <p>&nbsp;</p>
+  <h4>Permissions</h4>
+  <p>From the decoded xml we could extract these permissions:</p>
+  <div class="codehilite"><pre>
+android.permission.ACCESS_COARSE_LOCATION   To access coarse (e.g., Cell-ID, WiFi) location
+android.permission.ACCESS_FINE_LOCATION     To access fine (e.g., GPS) location
+android.permission.ACCESS_NETWORK_STATE     To access information about networks
+android.permission.ACCESS_WIFI_STATE        To access information about Wi-Fi networks
+android.permission.BLUETOOTH                To connect to paired bluetooth devices
+android.permission.BROADCAST_SMS            To broadcast an SMS receipt notification
+android.permission.CALL_PHONE               To initiate a phone call without going through the Dialer.
+android.permission.CAMERA                   To be able to access the camera device.
+android.permission.CHANGE_WIFI_STATE        To change Wi-Fi connectivity state
+android.permission.GET_ACCOUNTS             To access the list of accounts in the Accounts Service
+android.permission.INSTALL_PACKAGES         To install packages.
+android.permission.INTERNET                 To open network sockets.
+android.permission.MODIFY_AUDIO_SETTINGS    To modify global audio settings
+android.permission.MODIFY_PHONE_STATE       Allows modification of the telephony state.
+android.permission.PROCESS_OUTGOING_CALLS   To monitor, modify, or abort outgoing calls.
+android.permission.READ_CALENDAR            To read the user's calendar data.
+android.permission.READ_CONTACTS            To read the user's contacts data.
+android.permission.READ_PHONE_STATE         Allows read only access to phone state.
+android.permission.READ_SMS                 To read SMS messages.
+android.permission.RECEIVE_BOOT_COMPLETED   To receive a broadcast after the system finishes booting.
+android.permission.RECEIVE_MMS              To monitor incoming MMS messages.
+android.permission.RECEIVE_SMS              To monitor incoming SMS messages.
+android.permission.RECEIVE_WAP_PUSH         To monitor incoming WAP push messages.
+android.permission.RECORD_AUDIO             To record audio
+android.permission.SEND_SMS                 To send SMS messages.
+android.permission.WAKE_LOCK                To keep processor from sleeping or screen from dimming
+android.permission.WRITE_CONTACTS           To write (but not read) the user's contacts data.
+android.permission.WRITE_EXTERNAL_STORAGE   To write to external storage
+android.permission.WRITE_SETTINGS           To read or write the system settings.
+android.permission.WRITE_SMS                To write SMS messages.</pre></div>
+
+  <h4>Activities</h4>
+  <div class="codehilite"><pre>
+com.android.services.call.CallActivity  
+com.esn.wal.Start34Version</pre></div>
+
+  <h4>Services</h4>
+  <div class="codehilite"><pre>
+com.android.amazingcamera.Amazingcam  
+com.android.amazingcamera.MySevice  
+com.android.packet.KeepAliveService  
+com.android.scamazing.Pamazing  
+com.android.services.call.CallServices  
+com.android.time.based.RemovalAtServices  
+com.android.tracking.TrackingService  
+com.esn.wal.EventBasedService  
+com.esn.wal.MonitorInterfaceService  
+com.esn.wal.Services  
+com.esn.wal.WhatsApp.WhatsService  
+com.esn.wal.audio.AudioService
+com.esn.wal.sms.SmsHandlerIntentServices</pre></div>
+
+  <h4>Broadcast Receivers</h4>
+  <div class="codehilite"><pre>
+com.android.events.based.DataLinkReceiver            => android.net.conn.CONNECTIVITY_CHANGE
+com.android.events.based.NetworkChangedReceiver      => android.net.conn.CONNECTIVITY_CHANGE  
+com.android.events.based.ReceiverCalls               => android.intent.action.PHONE_STATE  
+com.android.events.based.ReceiverFlightMode          => android.intent.action.AIRPLANE_MODE  
+com.android.events.based.ReceiverLocationChanged  
+com.android.events.based.ReceiverLowBattery          => android.intent.action.BATTERY_LOW
+com.android.events.based.ReceiverLowSpace            => android.intent.action.DEVICE_STORAGE_LOW  
+com.android.events.based.ReceiverWifi                => android.net.wifi.STATE_CHANGE
+com.android.tracking.TReceiverLocationChanged  
+com.esn.wal.ReceiverMonitorInterfaceChange           => android.net.conn.CONNECTIVITY_CHANGE 
+com.esn.wal.ReceiverPackageReplaced                  => android.intent.action.PACKAGE_REPLACED
+com.esn.wal.ReceiverStartApp                         => android.net.conn.CONNECTIVITY_CHANGE  
+com.esn.wal.ReceiverStartBoot                        => android.intent.action.BOOT_COMPLETED  
+com.esn.wal.WhatsApp.SDCardMonitor                   => android.intent.action.MEDIA_SCANNER_FINISHED  
+com.esn.wal.sms.SMSReceiver                          => android.provider.Telephony.SMS_RECEIVED</pre></div>
+
+  <p>&nbsp;</p>
+  <h4>Assets</h4>
+  <p>Inside the assets directory there are 2 suspicious files:</p>
+  <div class="codehilite"><pre>
+plustig:      ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically 
+              linked (uses shared libs), stripped
+screenshot:   ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically 
+              linked (uses shared libs), stripped</pre></div>
+  <p>Realizing that these files are ELF executables we can guess that their functions, one to capture the screen and the other needs more focus.</p>
+
+  <p>&nbsp;</p>
+  <h4>Classes Structure</h4>
+  <p>Now its time to examine the actual code of this malware. Upon unzipping the apk file we got a classes.dex file which is a dex file that contains the application code.</p>
+
+  <p>Using tools in android sdk we could get the classes structure by running:</p>
+  <div class="codehilite"><pre>
+> dexdump -h classes.dex | grep "Class descriptor" | cut -d":" -f2 | cut -c4- | cut -d";" -f1
+a/a/a/a/a/b
+a/a/a/a/a/a
+a/a/a/a/a/c
+a/a/a/a/a
+a/a/a/a/b/a
+a/a/a/a/b/b
+a/a/a/a/b
+a/a/a/a/c
+com/a/a/a
+com/a/a/b
+com/a/a/c
+com/a/a/d
+com/a/a/e
+com/a/a/f
+com/a/a/g
+com/a/a/h
+com/a/a/i
+com/android/a/a
+com/android/a/b
+com/android/amazingcamera/Amazingcam
+com/android/amazingcamera/MySevice
+com/android/amazingcamera/a
+com/android/amazingcamera/b
+com/android/amazingcamera/c
+com/android/amazingcamera/d
+com/android/amazingcamera/e
+com/android/b/a/a
+com/android/c/a
+com/android/c/b
+com/android/d/a
+com/android/events/based/DataLinkReceiver
+com/android/events/based/NetworkChangedReceiver
+com/android/events/based/ReceiverCalls
+com/android/events/based/ReceiverFlightMode
+com/android/events/based/ReceiverLocationChanged
+com/android/events/based/ReceiverLowBattery
+com/android/events/based/ReceiverLowSpace
+com/android/events/based/ReceiverWifi
+com/android/events/based/a
+com/android/events/based/b
+com/android/events/based/c
+com/android/packet/KeepAliveService
+com/android/packet/c
+com/android/packet/a
+com/android/packet/b
+com/android/packet/d
+com/android/packet/e
+com/android/packet/f
+com/android/packet/g
+com/android/packet/h
+com/android/packet/i
+com/android/packet/j
+com/android/packet/k
+com/android/packet/l
+com/android/packet/m
+com/android/packet/n
+com/android/packet/o
+com/android/scamazing/Pamazing
+com/android/scamazing/a
+com/android/scamazing/b
+com/android/scamazing/c
+com/android/scamazing/d
+com/android/scamazing/e
+com/android/services/b/b
+com/android/services/a/a
+com/android/services/b/a
+com/android/services/c/a
+com/android/services/call/CallActivity
+com/android/services/call/CallServices
+com/android/services/call/a
+com/android/services/call/b
+com/android/services/d/a
+com/android/time/based/RemovalAtServices
+com/android/time/based/a
+com/android/time/based/b
+com/android/tracking/TReceiverLocationChanged
+com/android/tracking/TrackingService
+com/android/tracking/a
+com/android/tracking/b
+com/android/tracking/c
+com/android/tracking/d
+com/android/tracking/e
+com/esn/wal/EventBasedService
+com/esn/wal/GlobalAPP
+com/esn/wal/MonitorInterfaceService
+com/esn/wal/ReceiverMonitorInterfaceChange
+com/esn/wal/ReceiverPackageReplaced
+com/esn/wal/ReceiverStartApp
+com/esn/wal/ReceiverStartBoot
+com/esn/wal/Services
+com/esn/wal/Start34Version
+com/esn/wal/WhatsApp/SDCardMonitor
+com/esn/wal/WhatsApp/WhatsService
+com/esn/wal/WhatsApp/a
+com/esn/wal/WhatsApp/b
+com/esn/wal/WhatsApp/c
+com/esn/wal/WhatsApp/d
+com/esn/wal/a
+com/esn/wal/audio/AudioService
+com/esn/wal/audio/a
+com/esn/wal/audio/b
+com/esn/wal/b
+com/esn/wal/c
+com/esn/wal/sms/SMSReceiver
+com/esn/wal/sms/SmsHandlerIntentServices
+com/esn/wal/sms/a
+com/esn/wal/sms/b
+com/esn/wal/sms/c
+com/esn/wal/sms/d
+com/esn/wal/sms/e</pre></div> 
+
+  <p>From this structure we can setup a classes checklist for our reversing journey</p>
+  <div class="codehilite"><pre>
+com/android/amazingcamera/Amazingcam
+com/android/amazingcamera/MySevice
+com/android/events/based/DataLinkReceiver
+com/android/events/based/NetworkChangedReceiver
+com/android/events/based/ReceiverCalls
+com/android/events/based/ReceiverFlightMode
+com/android/events/based/ReceiverLocationChanged
+com/android/events/based/ReceiverLowBattery
+com/android/events/based/ReceiverLowSpace
+com/android/events/based/ReceiverWifi
+com/android/packet/KeepAliveService
+com/android/scamazing/Pamazing
+com/android/services/call/CallActivity
+com/android/services/call/CallServices
+com/android/time/based/RemovalAtServices
+com/android/tracking/TReceiverLocationChanged
+com/android/tracking/TrackingService
+com/esn/wal/EventBasedService
+com/esn/wal/GlobalAPP
+com/esn/wal/MonitorInterfaceService
+com/esn/wal/ReceiverMonitorInterfaceChange
+com/esn/wal/ReceiverPackageReplaced
+com/esn/wal/ReceiverStartApp
+com/esn/wal/ReceiverStartBoot
+com/esn/wal/Services
+com/esn/wal/Start34Version
+com/esn/wal/WhatsApp/SDCardMonitor
+com/esn/wal/WhatsApp/WhatsService
+com/esn/wal/audio/AudioService
+com/esn/wal/sms/SMSReceiver
+com/esn/wal/sms/SmsHandlerIntentServices</pre></div>    
+  
+  <p>To go on dumping and understanding the application codes, for this purpose I am going to introduce Dexpire! </p>
+
+  <p>&nbsp;</p>
+  <h4>dexpire | Interactive Dex Disassembler</h4>
+  <ul>
+  <li><p>Disassembler for the dex format used by Dalvik.</p></li>
+  <li><p>Directly decompile Dalvik bytecode to Java source code.</p></li>
+  <li><p>Full APK view, including decompressed manifest, resources, certificates, strings, constants, etc.</p></li>
+  </ul>
+
+  <p>&nbsp;</p>
+  <img src="../img/dexpire.png" style="display:block;margin-left: auto;margin-right: auto;"></img>
+
+  <p>&nbsp;</p>
+  <p>For the next parts, we are going to analyze various classes to laern the mechanism of the malware through dexpire.</p>
+      <p>&nbsp;</p>
+    </div> <!-- /container -->
+    </div>
+
+   <footer class="footer">
+      <div class="container">
+        <p class="text-center">anwarelmakarahy - 2014</p>
+        <ul class="footer-links">
+          <!--<li><a target="_blank" href="rss.xml">RSS</a></li>
+          <li class="muted">&middot;</li>-->
+          <li><a target="_blank" href="https://twitter.com/anwarelmakrahy">Twitter</a></li>
+          <li class="muted">&middot;</li>
+          <li><a target="_blank" href="https://github.com/AnwarMohamed">Github</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-53791622-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  </body>
+</html>
